@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Diagrama de Arquitectura - Usuarios</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: #f5f5f5;
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+  .diagram-wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  }
+  svg { display: block; }
+  .box-text {
+    font-size: 14px;
+    fill: #333333;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .box-subtext {
+    font-size: 12px;
+    fill: #333333;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+</style>
+</head>
+<body>
+<div class="diagram-wrapper">
+<svg viewBox="0 0 827 870" width="827" height="870" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- ==================== FLECHAS (marcadores) ==================== -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333333"/>
+    </marker>
+  </defs>
+
+  <!-- ==================== CONEXIONES ==================== -->
+  <!-- Usuarios -> Internet -->
+  <line x1="408" y1="120" x2="408" y2="200" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Internet -> Balanceador -->
+  <line x1="408" y1="260" x2="408" y2="340" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Balanceador -> Monitoreo (línea punteada, sin flecha) -->
+  <line x1="478" y1="370" x2="618" y2="370" stroke="#333333" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <!-- Balanceador -> APP Instancia 1 -->
+  <line x1="338" y1="400" x2="158" y2="480" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Balanceador -> APP Instancia 2 -->
+  <line x1="408" y1="400" x2="408" y2="480" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Balanceador -> APP Instancia 3 -->
+  <line x1="478" y1="400" x2="638" y2="480" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- APP Instancia 1 -> Persistencia (ortogonal) -->
+  <polyline points="158,540 158,650 338,650" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- APP Instancia 2 -> Persistencia -->
+  <line x1="408" y1="540" x2="408" y2="620" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- APP Instancia 3 -> Persistencia (ortogonal) -->
+  <polyline points="638,540 638,650 478,650" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Almacenamiento/respaldo -> Persistencia (ortogonal, hacia arriba) -->
+  <polyline points="408,750 408,680" fill="none" stroke="#333333" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ==================== CAJAS ==================== -->
+
+  <!-- Usuarios -->
+  <rect x="328" y="50" width="160" height="70" rx="10" ry="10" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.5"/>
+  <text x="408" y="85" class="box-text">Usuarios</text>
+
+  <!-- Internet / HTTPS -->
+  <rect x="348" y="200" width="120" height="60" rx="10" ry="10" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.5"/>
+  <text x="408" y="222" class="box-text">Internet o entrada</text>
+  <text x="408" y="242" class="box-subtext">HTTPS</text>
+
+  <!-- Balanceador de carga -->
+  <rect x="338" y="340" width="140" height="60" rx="10" ry="10" fill="#f8cecc" stroke="#b85450" stroke-width="1.5"/>
+  <text x="408" y="370" class="box-text">Balanceador de carga</text>
+
+  <!-- Monitoreo -->
+  <rect x="618" y="340" width="120" height="60" rx="10" ry="10" fill="#f8cecc" stroke="#b85450" stroke-width="1.5"/>
+  <text x="678" y="362" class="box-text">Monitoreo</text>
+  <text x="678" y="382" class="box-subtext">métricas + areas</text>
+
+  <!-- APP Instancia 1 -->
+  <rect x="88" y="480" width="140" height="60" rx="10" ry="10" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.5"/>
+  <text x="158" y="510" class="box-text">APP - Instancia 1</text>
+
+  <!-- APP Instancia 2 -->
+  <rect x="338" y="480" width="140" height="60" rx="10" ry="10" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.5"/>
+  <text x="408" y="510" class="box-text">APP - Instancia 2</text>
+
+  <!-- APP Instancia 3 -->
+  <rect x="568" y="480" width="140" height="60" rx="10" ry="10" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.5"/>
+  <text x="638" y="510" class="box-text">APP - Instancia 3</text>
+
+  <!-- Persistencia (DB) -->
+  <rect x="338" y="620" width="140" height="60" rx="10" ry="10" fill="#d5e8d4" stroke="#82b366" stroke-width="1.5"/>
+  <text x="408" y="642" class="box-text">Persistencia (DB)</text>
+  <text x="408" y="662" class="box-subtext">Replica / Redundancia</text>
+
+  <!-- Almacenamiento / respaldo -->
+  <rect x="333" y="750" width="150" height="80" rx="10" ry="10" fill="#d5e8d4" stroke="#82b366" stroke-width="1.5"/>
+  <text x="408" y="778" class="box-text">Almacenamiento / respaldo</text>
+  <text x="408" y="800" class="box-subtext">Backups programados</text>
+
+</svg>
+</div>
+</body>
+</html>
